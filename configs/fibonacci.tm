@@ -1,6 +1,6 @@
 # Máquina de Turing para calcular el n-ésimo número de Fibonacci en notación unaria.
 # Convención:
-#   - Entrada: n en unaria (secuencias de '1', n >= 1).
+#   - Entrada: n en unaria (ej. "111" = 3).
 #   - Salida: F(n) en unaria.
 #   - Símbolo en blanco: B.
 #   - Delimitador: 0.
@@ -125,14 +125,14 @@ transition: q6,B -> halt,B,R         # Si el contador está vacío, finaliza
 transition: q7,0 -> q8,0,R
 
 # q8: En F(n–2), buscar un '1' sin marcar.
-transition: q8,1 -> q9,X,R           # Marca el '1' como X y pasa a copiarlo.
 transition: q8,X -> q8,X,R           # Salta los ya marcados.
-transition: q8,0 -> q_check,0,R      # Nueva validación antes de q13.
+transition: q8,0 -> q_check,0,L  # En lugar de avanzar, primero verifica en q_check.
+transition: q8,1 -> q9,X,R           # Si encuentra 1, lo marca y continúa la copia
 
-# Nuevo estado q_check: Verifica si realmente no quedan 1 sin marcar.
-transition: q_check,1 -> q8,1,L         # Si queda un 1, volver a q8.
-transition: q_check,X -> q_check,X,R    # Saltar X.
-transition: q_check,0 -> q13,0,R        # Si no hay más 1, proceder a q13.
+# q_check: Verifica si en la sección F(n–2) quedan '1' sin marcar.
+transition: q_check,1 -> q8,1,R        # Si aún hay 1 sin marcar, regresa a q8.
+transition: q_check,X -> q_check,X,L   # Sigue retrocediendo si encuentra X.
+transition: q_check,0 -> q13,0,R       # Solo avanza a q13 si no quedan 1 sin marcar.
 
 # q9: Desde F(n–2), avanza hasta el delimitador que separa F(n–2) y F(n–1).
 transition: q9,1 -> q9,1,R
@@ -153,8 +153,7 @@ transition: q11,0 -> q12,0,L
 # q12: Retrocede hasta volver a la zona de F(n–2) para buscar el siguiente '1' sin marcar.
 transition: q12,1 -> q12,1,L
 transition: q12,X -> q12,X,L
-transition: q12,0 -> q8,0,R     # Solo reiniciar la búsqueda si se llegó al delimitador.
-transition: q12,B -> q12,B,L    # Asegurar que no se sobrepase el inicio.
+transition: q12,B -> q8,B,R         # Al alcanzar el borde (B) de F(n–2), regresa a q8.
 
 # --- Fase 3.3: Desmarcado ---
 # q13: Convierte todas las X en 1 en F(n–2) y pasa a la actualización.
@@ -167,9 +166,8 @@ transition: q14,1 -> q14,B,R
 transition: q14,0 -> q15,0,R
 
 # q15: Reestructura la cinta (simplificado) y reposiciona la cabeza en la zona del contador para la siguiente iteración.
-transition: q15,B -> q15,0,L
 transition: q15,0 -> q15,0,L
-transition: q15,B -> q6,B,R
+transition: q15,B -> q0,B,R
 
 # --- Auto-transición para halt (evitar estados indefinidos) ---
 transition: halt,B -> halt,B,N
