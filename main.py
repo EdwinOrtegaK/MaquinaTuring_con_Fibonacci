@@ -1,10 +1,10 @@
 import sys
 from src.parser import parse_configuration
-#from src.turing_machine import TuringMachine
+from src.turing_machine import TuringMachine
 
 def main():
-    # 1. Cargar el archivo de configuración de la máquina
-    config_file = "configs/fibonacci.tm"
+    # 1. Cargar el archivo JSON de configuración de la máquina
+    config_file = "configs/fibonacci.json"
     try:
         config = parse_configuration(config_file)
     except Exception as e:
@@ -13,7 +13,6 @@ def main():
     
     # 2. Solicitar al usuario la cadena de entrada
     tape_input = input("Ingrese la cadena de entrada (según la convención definida): ")
-
     # 3. Crear la instancia de la máquina de Turing con la configuración y la cadena de entrada
     machine = TuringMachine(config, tape_input)
 
