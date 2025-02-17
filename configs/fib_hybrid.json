@@ -1,0 +1,14 @@
+{
+    "states": ["q0", "solve_fib", "halt"],
+    "alphabet": ["1", "0", "B"],
+    "blank": "B",
+    "initial": "q0",
+    "final": ["halt"],
+    "transitions": {
+      "q0,1": {"new_state": "solve_fib", "write_symbol": "1", "direction": "R"},
+      "q0,B": {"new_state": "solve_fib", "write_symbol": "B", "direction": "N"},
+      "solve_fib,1": {"new_state": "solve_fib", "write_symbol": "1", "direction": "R"},
+      "solve_fib,B": {"new_state": "halt", "write_symbol": "B", "direction": "N"}
+    }
+  }
+  
