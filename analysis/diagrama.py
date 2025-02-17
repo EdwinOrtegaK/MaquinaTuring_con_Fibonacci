@@ -35,7 +35,7 @@ edge_labels = nx.get_edge_attributes(G, "label")
 nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=10)
 
 # Guardar la imagen
-plt.savefig("turing_machine_fibonacci_diagram.png", dpi=300, bbox_inches="tight")
+plt.savefig("analysis/turing_machine_fibonacci_diagram.png", dpi=300, bbox_inches="tight")
 
 # Mostrar el diagrama generado
 plt.show()
