@@ -1,4 +1,5 @@
 import sys
+<<<<<<< HEAD
 import time
 import csv
 from src.parser import parse_configuration
@@ -7,13 +8,21 @@ from src.turing_machine import TuringMachine
 def main():
     # 1. Cargar el archivo JSON de configuración de la máquina
     config_file = "configs/fibonacci.json"
+=======
+from src.parser import parse_configuration_json
+from src.turing_machine import TuringMachine
+
+def main():
+    # 1. Cargar el archivo de configuración de la máquina (usamos el híbrido)
+    config_file = "configs/fib_hybrid.json"
+>>>>>>> 3cea24d (refactor: modified main to accept new configuration)
     try:
-        config = parse_configuration(config_file)
+        config = parse_configuration_json(config_file)
     except Exception as e:
         print(f"Error al leer la configuración: {e}")
         sys.exit(1)
     
-    # 2. Solicitar al usuario la cadena de entrada
+    # 2. Solicitar al usuario la cadena de entrada (en notación unaria)
     tape_input = input("Ingrese la cadena de entrada (según la convención definida): ")
 
     # 3. Crear la instancia de la máquina de Turing con la configuración y la cadena de entrada
@@ -29,7 +38,6 @@ def main():
         print(f"Cabeza en la posición: {machine.head_position}")
         print(f"Cinta: {machine.get_tape_as_string()}")
         
-        # Ejecuta un paso de la máquina
         machine.execute_step()
         step_count += 1
     
@@ -40,6 +48,7 @@ def main():
     print("\nSimulación finalizada.")
     print(f"Estado final: {machine.current_state}")
     print(f"Cinta final: {machine.get_tape_as_string()}")
+<<<<<<< HEAD
     print(f"Resultado interpretado: {machine.interpret_result()}")
     print(f"Tiempo de ejecución: {execution_time:.6f} segundos")
 
@@ -55,6 +64,11 @@ def main():
         print(f"Tiempo de ejecución guardado en {csv_filename}")
     except Exception as e:
         print(f"Error al guardar el tiempo de ejecución: {e}")
+=======
+    resultado = machine.interpret_result()
+    print(f"Resultado interpretado: {resultado}")
+    
+>>>>>>> 3cea24d (refactor: modified main to accept new configuration)
 
 if __name__ == "__main__":
     main()
